@@ -1,23 +1,25 @@
 var currentSongNumber = 1;
 var willLoop = 0;
-var willShuffle = 0;
+var Shuffle = 0;
+//it is used to toggle the class of loop icon
 $('.fa-repeat').on('click',function()
 {
   $('.fa-repeat').toggleClass('disabled')
   willLoop=1-willLoop;
 });
 
+//it is used to toggle the class of shuffle icon
 $('.fa-random').on('click',function() {
     $('.fa-random').toggleClass('disabled')
     willShuffle = 1 - willShuffle;
 });
 
 
-
+//this function is used to validate the value entered by user and if length of value is greater than 2 then it will hide the the logon screen and show the playlist
 $('.welcome-screen button').on('click', function() {
     var name = $('#name-input').val();
     if (name.length > 2) {
-        var message = "Welcome, " + name;
+        var message =name;
         $('.main .user-name').text(message);
         $('.welcome-screen').addClass('hidden');
         $('.main').removeClass('hidden');
@@ -25,11 +27,12 @@ $('.welcome-screen button').on('click', function() {
         $('#name-input').addClass('error');
     }
 });
+
+
+//this function is used to change the icon to play and pause on the basis of event generated on song
 function toggleSong()
 {
         var song = document.querySelector('audio');
-        console.log("pass");
-        console.log(song);
         if (song.paused == true) {
             $('.play-icon').removeClass('fa-play').addClass('fa-pause');
             song.play();
@@ -38,16 +41,21 @@ function toggleSong()
             song.pause();
         }
 }
+
+//it is used to call tooglesong function when user clicks on play icon
 $('.play-icon').on('click',function(){ toggleSong(); });
 
+//when we press the spacebar song gets paused if it is playing and vice versa
 $('body').on('keypress',function(event) {
     var target = event.target;
-    if (event.keyCode == 32 && target.tagName !='INPUT')
+    var chk=$('#playlist-wrapper').is(':visible');
+    if (event.keyCode == 32 && target.tagName !='INPUT' & chk!=true)
     {
         toggleSong();
     }
 });
 
+//it is used to update the current time of the song
 function updateCurrentTime()
 {
   var song=document.querySelector('audio');
@@ -60,7 +68,7 @@ function updateCurrentTime()
 
 }
 
-
+// it is used to convert the time in the mm:ss format
 function fancyTimeFormat(time)
 {
     // Hours, minutes and seconds
@@ -80,7 +88,7 @@ function fancyTimeFormat(time)
     return ret;
 }
 
-
+//it is the object of objects consisting of different playlists
 var songs = [
   //first playlist
   [{
@@ -296,20 +304,21 @@ var songs = [
                   'duration': '4:16',
                   'fileName': 'p6_song4.mp3',
                   'image':'p6_song4.jpg'
-              }],
+              }]
 ]
 
-
+//it is used to run the functions when the page loads
 $(document).ready(function(){
 
+
+//this event is used when we select the particular playlist
   $('#playlist-wrapper div').on('click',function(){
   var id= $(this).attr('id');
   var lastChar = id.substr(id.length -1);
   var pos=parseInt(lastChar);
   changeCurrentSongDetails(songs[pos-1][0]);
 
-
-    for(var i =0; i < songs[pos].length;i++) {
+    for(var i =0; i < songs[pos-1].length;i++) {
        var obj = songs[pos-1][i];
        var name = '#song' + (i+1);
        var song = $(name);
@@ -317,12 +326,10 @@ $(document).ready(function(){
        song.find('.song-artist').text(obj.artist);
        song.find('.song-album').text(obj.album);
        song.find('.song-length').text(obj.duration);
+
        addSongNameClickEvent(obj,i+1);
 
    }
-
-
-
  });
 
 updateCurrentTime();
@@ -336,25 +343,25 @@ $('#songs').DataTable({ paging: false});
 
 });
 
+//this function is used to select the random song from the playlist
 function addSongNameClickEvent(songObj,position){
-
 var id="#song"+position;
 var songName= songObj.fileName;
-console.log(songName);
-
+//console.log(songObj.filename);
+console.log(id);
 $(id).on('click',function()
 {
 
 var audio=document.querySelector('audio');
 var currentSong="songs/"+audio.src;
-
-console.log(currentSong);
-
+//console.log(currentSong);
 if(currentSong.search(songName)!=-1)
 {
+  console.log("play");
 toggleSong();
 }
 else{
+ console.log(songName);
 audio.src="songs/"+songName;
 console.log(audio.src);
 toggleSong();
@@ -363,7 +370,7 @@ changeCurrentSongDetails(songObj);
 });
 }
 
-
+//it is used to change the songs details of the selected song
 function changeCurrentSongDetails(songObj) {
 $('.current-song-image').attr('src','img/' + songObj.image)
 $('.current-song-name').text(songObj.name)
@@ -371,7 +378,7 @@ $('.current-song-album').text(songObj.album)
 }
 
 
-
+//it is used to shuffle the songlist
 $('audio').on('ended',function() {
     var audio = document.querySelector('audio');
     if (willShuffle == 1) {
@@ -404,15 +411,13 @@ $('audio').on('ended',function() {
 
 
 
-
-
 var equal=0;
 
 $(".fa-bar-chart").click(function(){
-
 $(this).toggleClass("active");
 if(equal==0)
 {
+  $('.contain').removeClass('hidden');
 
 equal=1;
 
@@ -424,28 +429,16 @@ $(".contain").css("background","black");
 
 }
 else{
+  $('.contain').addClass('hidden');
+
 equal=0;
 $("svg").css("display","none");
 $(".content").css("display","inline-block");
 $(".contain").css("display","none");
 
-
-
-
 }});
 
-
-
-
-
-
-
-
-
-
-
-
-
+//it is used to change the css of divs containing different playlists
 $(".playlist").mouseover(function(){
 
 
@@ -457,16 +450,33 @@ $(".playlist").css("height","205px");
 $(".playlist").mouseout(function(){
 
 $(".playlist .p1").addClass('hidden');
-
-$(".playlist").css("height","200px");
-
 });
 
 
-
+//this function is used to hide the playlist-wrapper div and show the songs of particular list
 $('#playlist-wrapper div').on('click',function(){
 var id= $(this).attr('id');
   $('#playlist-wrapper').addClass('hidden');
   $('.content').removeClass('hidden');
   $('footer').removeClass('hidden');
+  $('#back-icon').removeClass('hidden');
+});
+
+//it is used to go back to the playlist page
+$('#back-icon').on('click',function(){
+  var audio = document.querySelector('audio');
+  audio.src="";
+  $('#playlist-wrapper').removeClass('hidden');
+  $('.content').addClass('hidden');
+  $('footer').addClass('hidden');
+  $('#back-icon').addClass('hidden');
+
+});
+
+//it is used to go back to the logon screen
+$('#signOut').on('click',function(){
+
+  $('.welcome-screen').removeClass('hidden');
+  $('.main').addClass('hidden');
+
 });
