@@ -1,0 +1,102 @@
+<html>
+<head>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="font-awesome.css">
+
+ <script src="jquery.js">
+    </script>
+
+<style>
+.playlist{
+text-align:center;
+height: 200px;
+display:block;
+margin: 10px;
+}
+#plist1{
+background: url("img/p1.jpg");
+background-size:cover;
+background-position:center;
+
+
+}
+#plist2{
+background: url("img/p2.jpg");
+background-size:cover;
+background-position:center;
+
+
+}
+#plist3{
+background: url("img/p3.jpg");
+background-size:cover;
+background-position:center;
+}
+#plist4{
+background: url("img/p4.jpg");
+background-size:cover;
+background-position:center;
+}
+#plist5{
+background: url("img/p5.jpg");
+background-size:cover;
+background-position:center;
+}
+#plist6{
+background: url("img/p6.jpg");
+background-size:cover;
+background-position:center;
+}
+.hidden{
+display: none;
+}
+.p1{
+margin-top:50px;
+height: 100px;
+width: 100px;
+opacity: 0.7;
+}
+</style>
+</head>
+<body>
+<div id="playlist-wrapper">
+	<div class="col-lg-3 playlist" id="plist1">
+		<img src="img/play1.png" class="p1 hidden">
+	</div>
+	<div class="col-lg-3  playlist" id="plist2">
+		<img src="img/play1.png" class="p1 hidden">
+	</div>
+	<div class=" col-lg-3 playlist" id="plist3">
+		<img src="img/play1.png" class="p1 hidden">
+	</div>
+	<div class=" col-lg-3 playlist" id="plist4">
+		<img src="img/play1.png" class="p1 hidden">
+	</div>
+	<div class=" col-lg-3 playlist" id="plist5">
+		<img src="img/play1.png" class="p1 hidden">
+	</div>
+	<div class=" col-lg-3 playlist" id="plist6">
+		<img src="img/play1.png" class="p1 hidden">
+	</div>
+</div>
+<script>
+$(".playlist").mouseover(function(){
+
+
+$(".playlist .p1").removeClass('hidden');
+
+$(".playlist").css("height","205px");
+
+});
+$(".playlist").mouseout(function(){
+
+$(".playlist .p1").addClass('hidden');
+
+$(".playlist").css("height","200px");
+
+});
+
+</script>
+
+</body>
+</html>
