@@ -91,7 +91,7 @@ function fancyTimeFormat(time)
 //it is the object of objects consisting of different playlists
 var songs = [
   //first playlist
-  [{
+  [ {
         'name': 'Umar Bhar',
         'artist': 'Shael',
         'album':'Aitbar',
@@ -316,6 +316,10 @@ $(document).ready(function(){
   var id= $(this).attr('id');
   var lastChar = id.substr(id.length -1);
   var pos=parseInt(lastChar);
+  var audio=document.querySelector('audio');
+  audio.src="songs/"+songs[pos-1][0].fileName;
+  console.log(audio.src);
+  
   changeCurrentSongDetails(songs[pos-1][0]);
 
     for(var i =0; i < songs[pos-1].length;i++) {
@@ -338,33 +342,32 @@ setInterval(function()
 updateCurrentTime();
 },1000);
 
-$('#songs').DataTable({ paging: false});
-
-
+  $('#songs').DataTable({ paging: false});
 });
 
 //this function is used to select the random song from the playlist
 function addSongNameClickEvent(songObj,position){
 var id="#song"+position;
 var songName= songObj.fileName;
-//console.log(songObj.filename);
-console.log(id);
+console.log(songObj.filename);
+//console.log(id);
 $(id).on('click',function()
 {
 
 var audio=document.querySelector('audio');
 var currentSong="songs/"+audio.src;
 //console.log(currentSong);
+
 if(currentSong.search(songName)!=-1)
 {
-  console.log("play");
 toggleSong();
 }
 else{
- console.log(songName);
+
+ toggleSong();
+//console.log(songName);
 audio.src="songs/"+songName;
-console.log(audio.src);
-toggleSong();
+
 changeCurrentSongDetails(songObj);
 }
 });
@@ -466,6 +469,7 @@ var id= $(this).attr('id');
 $('#back-icon').on('click',function(){
   var audio = document.querySelector('audio');
   audio.src="";
+
   $('#playlist-wrapper').removeClass('hidden');
   $('.content').addClass('hidden');
   $('footer').addClass('hidden');
@@ -480,3 +484,7 @@ $('#signOut').on('click',function(){
   $('.main').addClass('hidden');
 
 });
+
+/*function myfunction(){
+  location.reload();
+*/
