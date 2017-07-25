@@ -319,7 +319,7 @@ $(document).ready(function(){
   var audio=document.querySelector('audio');
   audio.src="songs/"+songs[pos-1][0].fileName;
   console.log(audio.src);
-  
+
   changeCurrentSongDetails(songs[pos-1][0]);
 
     for(var i =0; i < songs[pos-1].length;i++) {
@@ -463,13 +463,14 @@ var id= $(this).attr('id');
   $('.content').removeClass('hidden');
   $('footer').removeClass('hidden');
   $('#back-icon').removeClass('hidden');
+  $('.current-song-wrapper').removeClass('hidden');
 });
 
 //it is used to go back to the playlist page
 $('#back-icon').on('click',function(){
   var audio = document.querySelector('audio');
   audio.src="";
-
+$('.current-song-wrapper').addClass('hidden');
   $('#playlist-wrapper').removeClass('hidden');
   $('.content').addClass('hidden');
   $('footer').addClass('hidden');
